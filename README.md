@@ -80,7 +80,7 @@ customerId,address
 
 ## Example Code
 
-### Node.js Request Example
+### Python Request Example
 
 ```python
 import requests
