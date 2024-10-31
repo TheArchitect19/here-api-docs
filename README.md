@@ -82,29 +82,27 @@ customerId,address
 
 ### Node.js Request Example
 
-```javascript
-const axios = require('axios');
-const fs = require('fs');
+```python
+import requests
 
-const apiKey = 'YOUR_API_KEY';
-const filePath = './addresses.csv';
+api_key = 'YOUR_API_KEY'
+file_path = './addresses.csv'
 
-async function createBatchJob() {
-  const formData = new FormData();
-  formData.append('file', fs.createReadStream(filePath));
-  formData.append('apiKey', apiKey);
-  formData.append('action', 'run');
-  formData.append('header', 'true');
-  formData.append('outcols', 'latitude,longitude,matchLevel,relevance');
+def create_batch_job():
+    with open(file_path, 'rb') as file:
+        files = {
+            'file': file,
+            'apiKey': (None, api_key),
+            'action': (None, 'run'),
+            'header': (None, 'true'),
+            'outcols': (None, 'latitude,longitude,matchLevel,relevance')
+        }
+        
+        response = requests.post('https://batch.geocoder.ls.hereapi.com/6.2/jobs', files=files)
+        print('Batch Job Created:', response.json())
 
-  const response = await axios.post('https://batch.geocoder.ls.hereapi.com/6.2/jobs', formData, {
-    headers: formData.getHeaders(),
-  });
+create_batch_job()
 
-  console.log('Batch Job Created:', response.data);
-}
-
-createBatchJob();
 ```
 
 Replace `YOUR_API_KEY` with your actual API key.
